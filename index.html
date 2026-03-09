@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app" class="theme-sunny">
+    <div class="weather-bg" id="weatherBg"></div>
+
+    <header>
+      <h1 id="greeting"></h1>
+      <p id="date"></p>
+    </header>
+
+    <section class="clocks">
+      <div class="clock-card" id="clock-miami">
+        <span class="clock-label">Miami</span>
+        <span class="clock-time"></span>
+      </div>
+      <div class="clock-card" id="clock-sanfran">
+        <span class="clock-label">San Francisco</span>
+        <span class="clock-time"></span>
+      </div>
+      <div class="clock-card" id="clock-saopaulo">
+        <span class="clock-label">São Paulo</span>
+        <span class="clock-time"></span>
+      </div>
+    </section>
+
+    <section class="weather-card" id="weather">
+      <div class="weather-icon" id="weatherIcon"></div>
+      <div class="weather-info">
+        <span class="weather-temp" id="weatherTemp">--°F</span>
+        <span class="weather-desc" id="weatherDesc">Loading…</span>
+        <span class="weather-detail" id="weatherDetail"></span>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
