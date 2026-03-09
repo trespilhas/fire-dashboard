@@ -118,11 +118,42 @@ async function fetchWeather() {
   }
 }
 
+/* ── Discussions ───────────────────────────────── */
+async function fetchLatestDiscussion() {
+  const url = "https://api.github.com/repos/trespilhas/fire-dashboard/discussions?per_page=1&direction=desc";
+
+  try {
+    const res = await fetch(url, {
+      headers: { Accept: "application/vnd.github+json" },
+    });
+    const discussions = await res.json();
+
+    if (!Array.isArray(discussions) || discussions.length === 0) {
+      document.getElementById("discussionTitle").textContent = "No discussions yet";
+      document.getElementById("discussionBody").textContent = "Start a conversation on GitHub.";
+      return;
+    }
+
+    const latest = discussions[0];
+    document.getElementById("discussionTitle").textContent = latest.title;
+    document.getElementById("discussionBody").textContent = latest.body
+      ? latest.body.replace(/\r?\n/g, " ").slice(0, 200)
+      : "";
+    document.getElementById("discussionLink").href = latest.html_url;
+  } catch (err) {
+    document.getElementById("discussionTitle").textContent = "Discussions unavailable";
+    document.getElementById("discussionBody").textContent = "";
+    console.error("Discussion fetch failed:", err);
+  }
+}
+
 /* ── Init ──────────────────────────────────────── */
 updateClocks();
 updateGreeting();
 fetchWeather();
+fetchLatestDiscussion();
 
 setInterval(updateClocks, 1000);
 setInterval(updateGreeting, 60_000);
 setInterval(fetchWeather, 600_000); // refresh weather every 10 min
+setInterval(fetchLatestDiscussion, 600_000); // refresh discussions every 10 min
