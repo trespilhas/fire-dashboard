@@ -9,30 +9,67 @@
 }
 
 /* ── Theme gradients ───────────────────────────── */
-.theme-sunny   { --bg: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
-.theme-clear-night { --bg: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); }
-.theme-cloudy  { --bg: linear-gradient(135deg, #bdc3c7 0%, #8e9eab 100%); --text: #2c3e50; --text-muted: rgba(44,62,80,0.7); --glass: rgba(255,255,255,0.3); }
-.theme-rainy   { --bg: linear-gradient(135deg, #4b6cb7 0%, #182848 100%); }
-.theme-stormy  { --bg: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%); }
-.theme-snowy   { --bg: linear-gradient(135deg, #e6dada 0%, #274046 100%); }
-.theme-foggy   { --bg: linear-gradient(135deg, #757f9a 0%, #d7dde8 100%); --text: #2c3e50; --text-muted: rgba(44,62,80,0.7); }
+.theme-sunny {
+  --bg: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+}
+
+.theme-clear-night {
+  --bg: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+}
+
+.theme-cloudy {
+  --bg: linear-gradient(135deg, #bdc3c7 0%, #8e9eab 100%);
+  --text: #2c3e50;
+  --text-muted: rgba(44, 62, 80, 0.7);
+  --glass: rgba(255, 255, 255, 0.3);
+}
+
+.theme-rainy {
+  --bg: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+}
+
+.theme-stormy {
+  --bg: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+}
+
+.theme-snowy {
+  --bg: linear-gradient(135deg, #e6dada 0%, #274046 100%);
+}
+
+.theme-foggy {
+  --bg: linear-gradient(135deg, #757f9a 0%, #d7dde8 100%);
+  --text: #2c3e50;
+  --text-muted: rgba(44, 62, 80, 0.7);
+}
 
 /* ── Base ──────────────────────────────────────── */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   font-family: var(--font);
   color: var(--text);
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 #app {
   min-height: 100vh;
   background: var(--bg);
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-direction: column;
   flex-direction: column;
+  -webkit-align-items: center;
   align-items: center;
+  -webkit-justify-content: center;
   justify-content: center;
   gap: 2.5rem;
   padding: 2rem;
@@ -43,7 +80,10 @@ body {
 /* ── Animated weather background particles ─────── */
 .weather-bg {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   pointer-events: none;
   overflow: hidden;
   z-index: 0;
@@ -69,13 +109,22 @@ header p {
 
 /* ── Clocks ────────────────────────────────────── */
 .clocks {
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  justify-content: center;
   gap: 1.5rem;
   z-index: 1;
+  width: 100%;
+  max-width: 700px;
 }
 
 .clock-card {
   background: var(--glass);
+  background-color: rgba(255, 255, 255, 0.15);
+  /* fallback for no backdrop-filter */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
@@ -83,10 +132,14 @@ header p {
   padding: 1.5rem 2rem;
   text-align: center;
   min-width: 160px;
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
   transition: transform 0.2s;
 }
 
-.clock-card:hover { transform: translateY(-4px); }
+.clock-card:hover {
+  transform: translateY(-4px);
+}
 
 .clock-label {
   display: block;
@@ -106,25 +159,39 @@ header p {
 
 /* ── Top row (weather + discussions) ───────────── */
 .top-row {
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  justify-content: center;
   gap: 1.5rem;
   z-index: 1;
+  width: 100%;
+  max-width: 700px;
 }
 
 /* ── Weather card ──────────────────────────────── */
 .weather-card {
+  display: -webkit-flex;
   display: flex;
+  -webkit-align-items: center;
   align-items: center;
   gap: 1.5rem;
   background: var(--glass);
+  background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius);
   padding: 1.5rem 2.5rem;
+  -webkit-flex: 1 1 280px;
+  flex: 1 1 280px;
 }
 
-.weather-icon { font-size: 3rem; }
+.weather-icon {
+  font-size: 3rem;
+}
 
 .weather-info {
   display: flex;
@@ -149,19 +216,28 @@ header p {
 
 /* ── Discussion card ──────────────────────────── */
 .discussion-card {
+  display: -webkit-flex;
   display: flex;
+  -webkit-align-items: flex-start;
   align-items: flex-start;
   gap: 1rem;
   background: var(--glass);
+  background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius);
   padding: 1.5rem 2rem;
   max-width: 340px;
+  -webkit-flex: 1 1 280px;
+  flex: 1 1 280px;
 }
 
-.discussion-icon { font-size: 2rem; flex-shrink: 0; margin-top: 0.15rem; }
+.discussion-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
 
 .discussion-info {
   display: flex;
@@ -196,13 +272,181 @@ header p {
   transition: opacity 0.2s;
 }
 
-.discussion-link:hover { opacity: 1; text-decoration: underline; }
+.discussion-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
 
-/* ── Responsive ────────────────────────────────── */
+/* ── Responsive: Tablet (Kindle Fire HD 8/10) ─── */
+@media (max-width: 1024px) {
+  #app {
+    gap: 1.5rem;
+    padding: 1.5rem;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    padding-top: 3rem;
+  }
+
+  header h1 {
+    font-size: 1.75rem;
+  }
+
+  .clock-time {
+    font-size: 1.6rem;
+  }
+
+  .weather-temp {
+    font-size: 2rem;
+  }
+}
+
+/* ── Responsive: Small tablet (Kindle Fire 7) ──── */
 @media (max-width: 640px) {
-  .top-row { flex-direction: column; gap: 1rem; }
-  .clocks { flex-direction: column; gap: 1rem; }
-  .clock-card { min-width: auto; width: 100%; }
-  .weather-card { flex-direction: column; text-align: center; padding: 1.5rem; }
-  .discussion-card { max-width: none; }
+  #app {
+    gap: 1.25rem;
+    padding: 1rem;
+    padding-top: 2rem;
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+  }
+
+  header p {
+    font-size: 0.85rem;
+  }
+
+  .top-row {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .weather-card {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    text-align: center;
+    padding: 1.25rem;
+  }
+
+  .weather-icon {
+    font-size: 2.5rem;
+  }
+
+  .weather-temp {
+    font-size: 2rem;
+  }
+
+  .weather-info {
+    -webkit-align-items: center;
+    align-items: center;
+  }
+
+  .discussion-card {
+    max-width: none;
+  }
+
+  .clocks {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .clock-card {
+    min-width: auto;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+  }
+
+  .clock-label {
+    margin-bottom: 0;
+    font-size: 0.7rem;
+  }
+
+  .clock-time {
+    font-size: 1.4rem;
+  }
+}
+
+/* ── Responsive: Very small / portrait ─────────── */
+@media (max-width: 400px) {
+  #app {
+    padding: 0.75rem;
+    padding-top: 1.5rem;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+  .weather-temp {
+    font-size: 1.6rem;
+  }
+
+  .weather-detail {
+    font-size: 0.7rem;
+  }
+
+  .clock-time {
+    font-size: 1.2rem;
+  }
+
+  .discussion-card {
+    padding: 1rem;
+  }
+}
+
+/* ── Landscape orientation ─────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+  #app {
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    padding-top: 1rem;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+  header p {
+    font-size: 0.75rem;
+  }
+
+  .top-row {
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+
+  .clocks {
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+
+  .clock-card {
+    padding: 0.75rem 1rem;
+  }
+
+  .clock-time {
+    font-size: 1.2rem;
+  }
+
+  .weather-card {
+    padding: 1rem 1.5rem;
+  }
+
+  .weather-icon {
+    font-size: 2rem;
+  }
+
+  .weather-temp {
+    font-size: 1.6rem;
+  }
 }
