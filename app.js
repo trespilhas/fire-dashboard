@@ -1,3 +1,85 @@
+/* ── Promise polyfill for older WebViews ────────── */
+if (typeof Promise === "undefined") {
+  (function () {
+    function MiniPromise(executor) {
+      var self = this;
+      self._state = 0;
+      self._value = undefined;
+      self._handlers = [];
+
+      function resolve(value) {
+        if (self._state !== 0) return;
+        self._state = 1;
+        self._value = value;
+        _flush(self);
+      }
+
+      function reject(reason) {
+        if (self._state !== 0) return;
+        self._state = 2;
+        self._value = reason;
+        _flush(self);
+      }
+
+      try { executor(resolve, reject); } catch (e) { reject(e); }
+    }
+
+    function _flush(self) {
+      setTimeout(function () {
+        for (var i = 0; i < self._handlers.length; i++) {
+          _handle(self, self._handlers[i]);
+        }
+        self._handlers = [];
+      }, 0);
+    }
+
+    function _handle(self, handler) {
+      var cb = self._state === 1 ? handler.onFulfilled : handler.onRejected;
+      if (cb === null) {
+        (self._state === 1 ? handler.resolve : handler.reject)(self._value);
+        return;
+      }
+      try {
+        var result = cb(self._value);
+        if (result && typeof result.then === "function") {
+          result.then(handler.resolve, handler.reject);
+        } else {
+          handler.resolve(result);
+        }
+      } catch (e) { handler.reject(e); }
+    }
+
+    MiniPromise.prototype.then = function (onFulfilled, onRejected) {
+      var self = this;
+      return new MiniPromise(function (resolve, reject) {
+        var h = {
+          onFulfilled: typeof onFulfilled === "function" ? onFulfilled : null,
+          onRejected: typeof onRejected === "function" ? onRejected : null,
+          resolve: resolve,
+          reject: reject,
+        };
+        if (self._state === 0) { self._handlers.push(h); }
+        else { setTimeout(function () { _handle(self, h); }, 0); }
+      });
+    };
+
+    MiniPromise.prototype["catch"] = function (onRejected) {
+      return this.then(null, onRejected);
+    };
+
+    MiniPromise.resolve = function (value) {
+      if (value && typeof value.then === "function") return value;
+      return new MiniPromise(function (resolve) { resolve(value); });
+    };
+
+    MiniPromise.reject = function (reason) {
+      return new MiniPromise(function (_, reject) { reject(reason); });
+    };
+
+    window.Promise = MiniPromise;
+  })();
+}
+
 /* ── fetch polyfill for older Silk browsers ────── */
 if (typeof window.fetch === "undefined") {
   window.fetch = function (url, options) {

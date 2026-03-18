@@ -10,34 +10,43 @@
 
 /* ── Theme gradients ───────────────────────────── */
 .theme-sunny {
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
   --bg: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
 }
 
 .theme-clear-night {
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
   --bg: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
 }
 
 .theme-cloudy {
+  background: linear-gradient(135deg, #bdc3c7 0%, #8e9eab 100%);
   --bg: linear-gradient(135deg, #bdc3c7 0%, #8e9eab 100%);
+  color: #2c3e50;
   --text: #2c3e50;
   --text-muted: rgba(44, 62, 80, 0.7);
   --glass: rgba(255, 255, 255, 0.3);
 }
 
 .theme-rainy {
+  background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
   --bg: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
 }
 
 .theme-stormy {
+  background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
   --bg: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
 }
 
 .theme-snowy {
+  background: linear-gradient(135deg, #e6dada 0%, #274046 100%);
   --bg: linear-gradient(135deg, #e6dada 0%, #274046 100%);
 }
 
 .theme-foggy {
+  background: linear-gradient(135deg, #757f9a 0%, #d7dde8 100%);
   --bg: linear-gradient(135deg, #757f9a 0%, #d7dde8 100%);
+  color: #2c3e50;
   --text: #2c3e50;
   --text-muted: rgba(44, 62, 80, 0.7);
 }
@@ -48,11 +57,14 @@
 *::after {
   margin: 0;
   padding: 0;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
 body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
   font-family: var(--font);
+  color: #fff;
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
@@ -63,18 +75,28 @@ body {
 #app {
   min-height: 100vh;
   background: var(--bg);
+  display: -webkit-box;
   display: -webkit-flex;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
   -webkit-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
   -webkit-align-items: center;
   align-items: center;
+  -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 2.5rem;
   padding: 2rem;
+  -webkit-transition: background 1.5s ease;
   transition: background 1.5s ease;
   position: relative;
+}
+
+/* gap fallback: use margin between adjacent children */
+#app > * + * {
+  margin-top: 2.5rem;
 }
 
 /* ── Animated weather background particles ─────── */
@@ -87,6 +109,11 @@ body {
   pointer-events: none;
   overflow: hidden;
   z-index: 0;
+}
+
+/* weather-bg is position:absolute, so skip it in the sibling margin chain */
+.weather-bg + * {
+  margin-top: 0;
 }
 
 /* ── Header ────────────────────────────────────── */
@@ -103,41 +130,51 @@ header h1 {
 
 header p {
   font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
   color: var(--text-muted);
   margin-top: 0.25rem;
 }
 
 /* ── Clocks ────────────────────────────────────── */
 .clocks {
+  display: -webkit-box;
   display: -webkit-flex;
   display: flex;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 1.5rem;
   z-index: 1;
   width: 100%;
   max-width: 700px;
+  /* gap fallback */
+  margin: -0.75rem;
 }
 
 .clock-card {
+  background: rgba(255, 255, 255, 0.15);
   background: var(--glass);
-  background-color: rgba(255, 255, 255, 0.15);
-  /* fallback for no backdrop-filter */
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border: 1px solid var(--glass-border);
+  border-radius: 16px;
   border-radius: var(--radius);
   padding: 1.5rem 2rem;
   text-align: center;
   min-width: 160px;
+  -webkit-box-flex: 1;
   -webkit-flex: 1 1 auto;
   flex: 1 1 auto;
+  -webkit-transition: -webkit-transform 0.2s;
   transition: transform 0.2s;
+  /* gap fallback */
+  margin: 0.75rem;
 }
 
 .clock-card:hover {
+  -webkit-transform: translateY(-4px);
   transform: translateY(-4px);
 }
 
@@ -146,6 +183,7 @@ header p {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.7);
   color: var(--text-muted);
   margin-bottom: 0.5rem;
 }
@@ -154,39 +192,54 @@ header p {
   display: block;
   font-size: 2rem;
   font-weight: 200;
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
   font-variant-numeric: tabular-nums;
 }
 
 /* ── Top row (weather + discussions) ───────────── */
 .top-row {
+  display: -webkit-box;
   display: -webkit-flex;
   display: flex;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-box-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 1.5rem;
   z-index: 1;
   width: 100%;
   max-width: 700px;
+  /* gap fallback */
+  margin: -0.75rem;
 }
 
 /* ── Weather card ──────────────────────────────── */
 .weather-card {
+  display: -webkit-box;
   display: -webkit-flex;
   display: flex;
+  -webkit-box-align: center;
   -webkit-align-items: center;
   align-items: center;
-  gap: 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
   background: var(--glass);
-  background-color: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border: 1px solid var(--glass-border);
+  border-radius: 16px;
   border-radius: var(--radius);
   padding: 1.5rem 2.5rem;
+  -webkit-box-flex: 1;
   -webkit-flex: 1 1 280px;
   flex: 1 1 280px;
+  /* gap fallback */
+  margin: 0.75rem;
+}
+
+.weather-card > * + * {
+  margin-left: 1.5rem;
 }
 
 .weather-icon {
@@ -194,7 +247,12 @@ header p {
 }
 
 .weather-info {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   flex-direction: column;
 }
 
@@ -205,45 +263,66 @@ header p {
 
 .weather-desc {
   font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
   color: var(--text-muted);
 }
 
 .weather-detail {
   font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
   color: var(--text-muted);
   margin-top: 0.25rem;
 }
 
 /* ── Discussion card ──────────────────────────── */
 .discussion-card {
+  display: -webkit-box;
   display: -webkit-flex;
   display: flex;
+  -webkit-box-align: start;
   -webkit-align-items: flex-start;
   align-items: flex-start;
-  gap: 1rem;
+  background: rgba(255, 255, 255, 0.15);
   background: var(--glass);
-  background-color: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border: 1px solid var(--glass-border);
+  border-radius: 16px;
   border-radius: var(--radius);
   padding: 1.5rem 2rem;
   max-width: 340px;
+  -webkit-box-flex: 1;
   -webkit-flex: 1 1 280px;
   flex: 1 1 280px;
+  /* gap fallback */
+  margin: 0.75rem;
+}
+
+.discussion-card > * + * {
+  margin-left: 1rem;
 }
 
 .discussion-icon {
   font-size: 2rem;
+  -webkit-flex-shrink: 0;
   flex-shrink: 0;
   margin-top: 0.15rem;
 }
 
 .discussion-info {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   flex-direction: column;
-  gap: 0.35rem;
   min-width: 0;
+}
+
+.discussion-info > * + * {
+  margin-top: 0.35rem;
 }
 
 .discussion-title {
@@ -257,6 +336,7 @@ header p {
 
 .discussion-body {
   font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
   color: var(--text-muted);
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -266,9 +346,11 @@ header p {
 
 .discussion-link {
   font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
   color: var(--text-muted);
   text-decoration: none;
   opacity: 0.8;
+  -webkit-transition: opacity 0.2s;
   transition: opacity 0.2s;
 }
 
@@ -280,11 +362,15 @@ header p {
 /* ── Responsive: Tablet (Kindle Fire HD 8/10) ─── */
 @media (max-width: 1024px) {
   #app {
-    gap: 1.5rem;
     padding: 1.5rem;
+    -webkit-box-pack: start;
     -webkit-justify-content: flex-start;
     justify-content: flex-start;
     padding-top: 3rem;
+  }
+
+  #app > * + * {
+    margin-top: 1.5rem;
   }
 
   header h1 {
@@ -303,9 +389,12 @@ header p {
 /* ── Responsive: Small tablet (Kindle Fire 7) ──── */
 @media (max-width: 640px) {
   #app {
-    gap: 1.25rem;
     padding: 1rem;
     padding-top: 2rem;
+  }
+
+  #app > * + * {
+    margin-top: 1.25rem;
   }
 
   header h1 {
@@ -317,16 +406,29 @@ header p {
   }
 
   .top-row {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
     -webkit-flex-direction: column;
     flex-direction: column;
-    gap: 1rem;
+    margin: -0.5rem;
+  }
+
+  .top-row > * {
+    margin: 0.5rem;
   }
 
   .weather-card {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
     -webkit-flex-direction: column;
     flex-direction: column;
     text-align: center;
     padding: 1.25rem;
+  }
+
+  .weather-card > * + * {
+    margin-left: 0;
+    margin-top: 1rem;
   }
 
   .weather-icon {
@@ -338,6 +440,7 @@ header p {
   }
 
   .weather-info {
+    -webkit-box-align: center;
     -webkit-align-items: center;
     align-items: center;
   }
@@ -347,19 +450,28 @@ header p {
   }
 
   .clocks {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
     -webkit-flex-direction: column;
     flex-direction: column;
-    gap: 0.75rem;
+    margin: -0.375rem;
+  }
+
+  .clocks > * {
+    margin: 0.375rem;
   }
 
   .clock-card {
     min-width: auto;
     width: 100%;
     padding: 1rem 1.5rem;
+    display: -webkit-box;
     display: -webkit-flex;
     display: flex;
+    -webkit-box-align: center;
     -webkit-align-items: center;
     align-items: center;
+    -webkit-box-pack: justify;
     -webkit-justify-content: space-between;
     justify-content: space-between;
   }
@@ -405,27 +517,27 @@ header p {
 /* ── Landscape orientation ─────────────────────── */
 @media (max-height: 500px) and (orientation: landscape) {
   #app {
-    gap: 1rem;
     padding: 0.75rem 1.5rem;
+    -webkit-box-pack: start;
     -webkit-justify-content: flex-start;
     justify-content: flex-start;
     padding-top: 1rem;
   }
 
-  header h1 {
-    font-size: 1.2rem;
-  }
-
-  header p {
-    font-size: 0.75rem;
+  #app > * + * {
+    margin-top: 1rem;
   }
 
   .top-row {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
     -webkit-flex-direction: row;
     flex-direction: row;
   }
 
   .clocks {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
     -webkit-flex-direction: row;
     flex-direction: row;
   }
