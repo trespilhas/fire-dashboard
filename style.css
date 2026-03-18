@@ -68,7 +68,7 @@ body {
   animation: crt-on 0.5s ease-out;
 }
 
-#app > * + * {
+#app>*+* {
   margin-top: 2.5rem;
 }
 
@@ -80,20 +80,16 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: -webkit-repeating-linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.1),
-    rgba(0, 0, 0, 0.1) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.1),
-    rgba(0, 0, 0, 0.1) 1px,
-    transparent 1px,
-    transparent 3px
-  );
+  background: -webkit-repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px,
+      transparent 3px);
+  background: repeating-linear-gradient(0deg,
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px,
+      transparent 3px);
   pointer-events: none;
   z-index: 100;
 }
@@ -106,40 +102,74 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: -webkit-radial-gradient(
-    ellipse at center,
-    transparent 50%,
-    rgba(0, 0, 0, 0.45) 100%
-  );
-  background: radial-gradient(
-    ellipse at center,
-    transparent 50%,
-    rgba(0, 0, 0, 0.45) 100%
-  );
+  background: -webkit-radial-gradient(ellipse at center,
+      transparent 50%,
+      rgba(0, 0, 0, 0.45) 100%);
+  background: radial-gradient(ellipse at center,
+      transparent 50%,
+      rgba(0, 0, 0, 0.45) 100%);
   pointer-events: none;
   z-index: 100;
 }
 
 /* ── CRT power-on animation ───────────────────── */
 @-webkit-keyframes crt-on {
-  0%   { -webkit-transform: scaleY(0.01); opacity: 0.3; }
-  40%  { -webkit-transform: scaleY(0.01); opacity: 1; }
-  100% { -webkit-transform: scaleY(1); opacity: 1; }
+  0% {
+    -webkit-transform: scaleY(0.01);
+    opacity: 0.3;
+  }
+
+  40% {
+    -webkit-transform: scaleY(0.01);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: scaleY(1);
+    opacity: 1;
+  }
 }
+
 @keyframes crt-on {
-  0%   { transform: scaleY(0.01); opacity: 0.3; }
-  40%  { transform: scaleY(0.01); opacity: 1; }
-  100% { transform: scaleY(1); opacity: 1; }
+  0% {
+    transform: scaleY(0.01);
+    opacity: 0.3;
+  }
+
+  40% {
+    transform: scaleY(0.01);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
 }
 
 /* ── Blinking cursor ──────────────────────────── */
 @-webkit-keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
+
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 /* ── weather-bg (unused visually, keeps DOM) ──── */
@@ -154,7 +184,7 @@ body {
   z-index: 0;
 }
 
-.weather-bg + * {
+.weather-bg+* {
   margin-top: 0;
 }
 
@@ -289,7 +319,7 @@ header p::before {
   margin: 0.75rem;
 }
 
-.weather-card > * + * {
+.weather-card>*+* {
   margin-left: 1.5rem;
 }
 
@@ -356,7 +386,7 @@ header p::before {
   margin: 0.75rem;
 }
 
-.discussion-card > * + * {
+.discussion-card>*+* {
   margin-left: 1rem;
 }
 
@@ -388,7 +418,7 @@ header p::before {
   min-width: 0;
 }
 
-.discussion-info > * + * {
+.discussion-info>*+* {
   margin-top: 0.4rem;
 }
 
@@ -448,7 +478,7 @@ header p::before {
     padding-top: 3rem;
   }
 
-  #app > * + * {
+  #app>*+* {
     margin-top: 1.5rem;
   }
 
@@ -472,7 +502,7 @@ header p::before {
     padding-top: 2rem;
   }
 
-  #app > * + * {
+  #app>*+* {
     margin-top: 1.25rem;
   }
 
@@ -492,7 +522,7 @@ header p::before {
     margin: -0.5rem;
   }
 
-  .top-row > * {
+  .top-row>* {
     margin: 0.5rem;
   }
 
@@ -505,7 +535,7 @@ header p::before {
     padding: 1.25rem;
   }
 
-  .weather-card > * + * {
+  .weather-card>*+* {
     margin-left: 0;
     margin-top: 1rem;
   }
@@ -580,7 +610,7 @@ header p::before {
     padding-top: 1rem;
   }
 
-  #app > * + * {
+  #app>*+* {
     margin-top: 1rem;
   }
 
