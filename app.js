@@ -165,18 +165,72 @@ var WMO = {
   99: { desc: "Thunderstorm w/ heavy hail", icon: "storm", theme: "stormy" },
 };
 
+/* ── Timezone support detection & fallback ──────── */
+var _tzSupported = (function () {
+  try {
+    // Pick a date where UTC hour 3 and LA hour differ for sure
+    var d = new Date(Date.UTC(2020, 5, 15, 3, 0, 0));
+    var utc = d.toLocaleTimeString("en-US", { timeZone: "UTC", hour: "numeric", hour12: false });
+    var pac = d.toLocaleTimeString("en-US", { timeZone: "America/Los_Angeles", hour: "numeric", hour12: false });
+    return utc !== pac;
+  } catch (e) { return false; }
+})();
+
+function _secondSundayOfMarch(year) {
+  var d = new Date(Date.UTC(year, 2, 1)).getUTCDay();
+  return 8 + (7 - d) % 7;
+}
+function _firstSundayOfNov(year) {
+  var d = new Date(Date.UTC(year, 10, 1)).getUTCDay();
+  return 1 + (7 - d) % 7;
+}
+function _isUSDST(date, stdOffsetHours) {
+  var y = date.getUTCFullYear();
+  var start = Date.UTC(y, 2, _secondSundayOfMarch(y), 2 - stdOffsetHours, 0, 0);
+  var end = Date.UTC(y, 10, _firstSundayOfNov(y), 1 - stdOffsetHours, 0, 0);
+  var t = date.getTime();
+  return t >= start && t < end;
+}
+function _getOffsetMinutes(timezone, date) {
+  switch (timezone) {
+    case "America/New_York": return _isUSDST(date, -5) ? -240 : -300;
+    case "America/Los_Angeles": return _isUSDST(date, -8) ? -420 : -480;
+    case "America/Sao_Paulo": return -180;
+    default: return -date.getTimezoneOffset();
+  }
+}
+function _pad2(n) { return n < 10 ? "0" + n : "" + n; }
+function _formatTimeFallback(timezone, date) {
+  var off = _getOffsetMinutes(timezone, date);
+  var total = date.getUTCHours() * 60 + date.getUTCMinutes() + off;
+  while (total < 0) total += 1440;
+  while (total >= 1440) total -= 1440;
+  var h = Math.floor(total / 60);
+  var m = total % 60;
+  var s = date.getUTCSeconds();
+  var ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12;
+  if (h === 0) h = 12;
+  return _pad2(h) + ":" + _pad2(m) + ":" + _pad2(s) + " " + ampm;
+}
+
 /* ── Clocks ─────────────────────────────────────── */
 function updateClocks() {
   var now = new Date();
   for (var i = 0; i < CONFIG.clocks.length; i++) {
     var c = CONFIG.clocks[i];
-    var timeStr = now.toLocaleTimeString("en-US", {
-      timeZone: c.timezone,
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true,
-    });
+    var timeStr;
+    if (_tzSupported) {
+      timeStr = now.toLocaleTimeString("en-US", {
+        timeZone: c.timezone,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      });
+    } else {
+      timeStr = _formatTimeFallback(c.timezone, now);
+    }
     var el = document.querySelector("#" + c.id + " .clock-time");
     if (el) el.textContent = timeStr;
   }
