@@ -240,8 +240,8 @@ function fetchWeather() {
     document.getElementById("weatherDesc").textContent = info.desc;
     document.getElementById("weatherDetail").textContent =
       "Feels like " + Math.round(current.apparent_temperature) + unit +
-      " · Humidity " + current.relative_humidity_2m + "%" +
-      " · Wind " + Math.round(current.wind_speed_10m) + " mph";
+      " | Humidity " + current.relative_humidity_2m + "%" +
+      " | Wind " + Math.round(current.wind_speed_10m) + " mph";
   })["catch"](function (err) {
     document.getElementById("weatherDesc").textContent = "Weather unavailable";
     console.error("Weather fetch failed:", err);

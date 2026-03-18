@@ -1,54 +1,24 @@
-/* ── Configuration ──────────────────────────────── */
+/* ── CRT Terminal Theme ─────────────────────────── */
 :root {
-  --font: 'Helvetica Neue', Arial, sans-serif;
-  --radius: 16px;
-  --glass: rgba(255, 255, 255, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.25);
-  --text: #fff;
-  --text-muted: rgba(255, 255, 255, 0.7);
+  --font: 'Courier New', Courier, 'Lucida Console', monospace;
+  --radius: 0;
+  --glass: rgba(51, 255, 51, 0.04);
+  --glass-border: #1a6b1a;
+  --text: #33ff33;
+  --text-muted: #1a9f1a;
+  --glow: rgba(51, 255, 51, 0.5);
 }
 
-/* ── Theme gradients ───────────────────────────── */
-.theme-sunny {
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-  --bg: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-}
-
-.theme-clear-night {
-  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-  --bg: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-}
-
-.theme-cloudy {
-  background: linear-gradient(135deg, #bdc3c7 0%, #8e9eab 100%);
-  --bg: linear-gradient(135deg, #bdc3c7 0%, #8e9eab 100%);
-  color: #2c3e50;
-  --text: #2c3e50;
-  --text-muted: rgba(44, 62, 80, 0.7);
-  --glass: rgba(255, 255, 255, 0.3);
-}
-
-.theme-rainy {
-  background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
-  --bg: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
-}
-
-.theme-stormy {
-  background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
-  --bg: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
-}
-
-.theme-snowy {
-  background: linear-gradient(135deg, #e6dada 0%, #274046 100%);
-  --bg: linear-gradient(135deg, #e6dada 0%, #274046 100%);
-}
-
+/* ── All themes share CRT look ─────────────────── */
+.theme-sunny,
+.theme-clear-night,
+.theme-cloudy,
+.theme-rainy,
+.theme-stormy,
+.theme-snowy,
 .theme-foggy {
-  background: linear-gradient(135deg, #757f9a 0%, #d7dde8 100%);
-  --bg: linear-gradient(135deg, #757f9a 0%, #d7dde8 100%);
-  color: #2c3e50;
-  --text: #2c3e50;
-  --text-muted: rgba(44, 62, 80, 0.7);
+  background: #0a0a0a;
+  --bg: #0a0a0a;
 }
 
 /* ── Base ──────────────────────────────────────── */
@@ -62,20 +32,22 @@
 }
 
 body {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Courier New', Courier, 'Lucida Console', monospace;
   font-family: var(--font);
-  color: #fff;
+  color: #33ff33;
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: #000;
+  text-shadow: 0 0 5px rgba(51, 255, 51, 0.5);
+  text-shadow: 0 0 5px var(--glow);
 }
 
 #app {
   min-height: 100vh;
+  background: #0a0a0a;
   background: var(--bg);
   display: -webkit-box;
   display: -webkit-flex;
@@ -91,16 +63,86 @@ body {
   -webkit-justify-content: center;
   justify-content: center;
   padding: 2rem;
-  -webkit-transition: background 1.5s ease;
-  transition: background 1.5s ease;
   position: relative;
+  -webkit-animation: crt-on 0.5s ease-out;
+  animation: crt-on 0.5s ease-out;
 }
 
 #app > * + * {
   margin-top: 2.5rem;
 }
 
-/* ── Animated weather background particles ─────── */
+/* ── CRT scanlines ─────────────────────────────── */
+#app::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: -webkit-repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* ── CRT vignette ──────────────────────────────── */
+#app::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: -webkit-radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* ── CRT power-on animation ───────────────────── */
+@-webkit-keyframes crt-on {
+  0%   { -webkit-transform: scaleY(0.01); opacity: 0.3; }
+  40%  { -webkit-transform: scaleY(0.01); opacity: 1; }
+  100% { -webkit-transform: scaleY(1); opacity: 1; }
+}
+@keyframes crt-on {
+  0%   { transform: scaleY(0.01); opacity: 0.3; }
+  40%  { transform: scaleY(0.01); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+
+/* ── Blinking cursor ──────────────────────────── */
+@-webkit-keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── weather-bg (unused visually, keeps DOM) ──── */
 .weather-bg {
   position: absolute;
   top: 0;
@@ -125,15 +167,45 @@ header {
 header h1 {
   font-size: 2.5rem;
   font-weight: 400;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+header h1::before {
+  content: '> ';
+  color: #1a9f1a;
+  color: var(--text-muted);
+}
+
+header h1::after {
+  content: '_';
+  -webkit-animation: blink 1s step-end infinite;
+  animation: blink 1s step-end infinite;
 }
 
 header p {
-  font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+  color: #1a9f1a;
   color: var(--text-muted);
-  margin-top: 0.3rem;
-  letter-spacing: 0.02em;
+  margin-top: 0.5rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+header p::before {
+  content: '  ';
+}
+
+/* ── Shared card style ─────────────────────────── */
+.clock-card,
+.weather-card,
+.discussion-card {
+  background: rgba(51, 255, 51, 0.04);
+  background: var(--glass);
+  border: 1px solid #1a6b1a;
+  border: 1px solid var(--glass-border);
+  border-radius: 0;
+  border-radius: var(--radius);
 }
 
 /* ── Clocks ────────────────────────────────────── */
@@ -153,50 +225,40 @@ header p {
 }
 
 .clock-card {
-  background: rgba(255, 255, 255, 0.15);
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  border-radius: var(--radius);
-  padding: 1.5rem 2rem;
+  padding: 1.25rem 2rem;
   text-align: center;
   min-width: 160px;
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 auto;
   flex: 1 1 auto;
-  -webkit-transition: -webkit-transform 0.2s;
-  transition: transform 0.2s;
+  -webkit-transition: border-color 0.2s;
+  transition: border-color 0.2s;
   margin: 0.75rem;
 }
 
 .clock-card:hover {
-  -webkit-transform: translateY(-4px);
-  transform: translateY(-4px);
+  border-color: #33ff33;
+  border-color: var(--text);
 }
 
 .clock-label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.15em;
+  color: #1a9f1a;
   color: var(--text-muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .clock-time {
   display: block;
-  font-size: 2.5rem;
-  font-weight: 300;
-  -webkit-font-feature-settings: "tnum";
-  font-feature-settings: "tnum";
-  font-variant-numeric: tabular-nums;
+  font-size: 2.2rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
 }
 
-/* ── Top row (weather + discussions) ───────────── */
+/* ── Top row ───────────────────────────────────── */
 .top-row {
   display: -webkit-box;
   display: -webkit-flex;
@@ -220,15 +282,7 @@ header p {
   -webkit-box-align: center;
   -webkit-align-items: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.15);
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  border-radius: var(--radius);
-  padding: 1.5rem 2.5rem;
+  padding: 1.5rem 2rem;
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 280px;
   flex: 1 1 280px;
@@ -251,6 +305,8 @@ header p {
   width: 100%;
   height: 100%;
   display: block;
+  -webkit-filter: drop-shadow(0 0 6px rgba(51, 255, 51, 0.6));
+  filter: drop-shadow(0 0 6px rgba(51, 255, 51, 0.6));
 }
 
 .weather-info {
@@ -264,22 +320,24 @@ header p {
 }
 
 .weather-temp {
-  font-size: 3.5rem;
-  font-weight: 300;
+  font-size: 3.2rem;
+  font-weight: 400;
 }
 
 .weather-desc {
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.15rem;
+  color: #1a9f1a;
   color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .weather-detail {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  color: #1a9f1a;
   color: var(--text-muted);
   margin-top: 0.3rem;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
 }
 
 /* ── Discussion card ──────────────────────────── */
@@ -290,14 +348,6 @@ header p {
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
   align-items: flex-start;
-  background: rgba(255, 255, 255, 0.15);
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  border-radius: var(--radius);
   padding: 1.5rem 2rem;
   max-width: 340px;
   -webkit-box-flex: 1;
@@ -311,8 +361,8 @@ header p {
 }
 
 .discussion-icon {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   -webkit-flex-shrink: 0;
   flex-shrink: 0;
   margin-top: 0.15rem;
@@ -323,6 +373,8 @@ header p {
   width: 100%;
   height: 100%;
   display: block;
+  -webkit-filter: drop-shadow(0 0 4px rgba(51, 255, 51, 0.5));
+  filter: drop-shadow(0 0 4px rgba(51, 255, 51, 0.5));
 }
 
 .discussion-info {
@@ -341,17 +393,18 @@ header p {
 }
 
 .discussion-title {
-  font-size: 1.15rem;
-  font-weight: 500;
+  font-size: 1.05rem;
+  font-weight: 400;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-transform: uppercase;
 }
 
 .discussion-body {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  color: #1a9f1a;
   color: var(--text-muted);
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -361,21 +414,31 @@ header p {
 }
 
 .discussion-link {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  color: #1a9f1a;
   color: var(--text-muted);
   text-decoration: none;
-  opacity: 0.8;
-  -webkit-transition: opacity 0.2s;
-  transition: opacity 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+}
+
+.discussion-link::before {
+  content: '[ ';
+}
+
+.discussion-link::after {
+  content: ' ]';
 }
 
 .discussion-link:hover {
-  opacity: 1;
-  text-decoration: underline;
+  color: #33ff33;
+  color: var(--text);
+  text-decoration: none;
 }
 
-/* ── Responsive: Tablet (Kindle Fire HD 8/10) ─── */
+/* ── Responsive: Tablet ───────────────────────── */
 @media (max-width: 1024px) {
   #app {
     padding: 1.5rem;
@@ -394,7 +457,7 @@ header p {
   }
 
   .clock-time {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .weather-temp {
@@ -402,7 +465,7 @@ header p {
   }
 }
 
-/* ── Responsive: Small tablet (Kindle Fire 7) ──── */
+/* ── Responsive: Small tablet ─────────────────── */
 @media (max-width: 640px) {
   #app {
     padding: 1rem;
@@ -414,11 +477,11 @@ header p {
   }
 
   header h1 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   header p {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .top-row {
@@ -453,7 +516,7 @@ header p {
   }
 
   .weather-temp {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
 
   .weather-info {
@@ -481,7 +544,7 @@ header p {
   .clock-card {
     min-width: auto;
     width: 100%;
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1.25rem;
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
@@ -495,15 +558,15 @@ header p {
 
   .clock-label {
     margin-bottom: 0;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .clock-time {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
 }
 
-/* ── Responsive: Very small / portrait ─────────── */
+/* ── Responsive: Very small ───────────────────── */
 @media (max-width: 400px) {
   #app {
     padding: 0.75rem;
@@ -511,19 +574,19 @@ header p {
   }
 
   header h1 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .weather-temp {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .weather-detail {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .clock-time {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .discussion-card {
@@ -531,7 +594,7 @@ header p {
   }
 }
 
-/* ── Landscape orientation ─────────────────────── */
+/* ── Landscape ────────────────────────────────── */
 @media (max-height: 500px) and (orientation: landscape) {
   #app {
     padding: 0.75rem 1.5rem;
@@ -560,11 +623,11 @@ header p {
   }
 
   .clock-card {
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 1rem;
   }
 
   .clock-time {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .weather-card {
@@ -577,6 +640,6 @@ header p {
   }
 
   .weather-temp {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 }
