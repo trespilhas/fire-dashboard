@@ -280,7 +280,8 @@ function fetchWeather() {
   var url =
     "https://api.open-meteo.com/v1/forecast?latitude=" + latitude + "&longitude=" + longitude +
     "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m" +
-    "&temperature_unit=" + temperatureUnit + "&wind_speed_unit=mph&timezone=auto";
+    "&temperature_unit=" + temperatureUnit + "&wind_speed_unit=mph&timezone=auto" +
+    "&_t=" + Date.now();
 
   fetch(url).then(function (res) {
     return res.json();
@@ -304,7 +305,7 @@ function fetchWeather() {
 
 /* ── Discussions ───────────────────────────────── */
 function fetchLatestDiscussion() {
-  var url = "https://api.github.com/repos/trespilhas/fire-dashboard/discussions?per_page=1&direction=desc";
+  var url = "https://api.github.com/repos/trespilhas/fire-dashboard/discussions?per_page=1&direction=desc&_t=" + Date.now();
 
   fetch(url, {
     headers: { Accept: "application/vnd.github+json" },
